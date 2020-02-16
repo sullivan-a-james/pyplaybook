@@ -1,9 +1,11 @@
-def transpose(dataframe,values,keys):
+
+#Data Transposition Function: 
+
+def transpose(dataframe,values,keys=None):
     
     """
-    The transpose function allows you to 'flip' the orientation of a pandas dataframe. 
-    
-    The dataframe is enhanced so that you may view one or many horizontal data columns on a vertical axis.
+    The transpose function allows you to 'flip' the orientation of a pandas dataframe whereby 
+    one or many horizontal data columns can be viewed on a vertical axis
     
     Parameters
     ----------
@@ -26,7 +28,10 @@ def transpose(dataframe,values,keys):
     """
     import pandas as pd
     
+    null_index_name = 0
+    
     if dataframe.index.name is None:
+        null_index_name += 1
         i = 0
         dataframe.index.name = str(i)
         while dataframe.index.name in list(dataframe.columns.values):
@@ -36,7 +41,9 @@ def transpose(dataframe,values,keys):
     if type(values) != list:
         values = [values]
         
-    if type(keys) != list:
+    if keys is None:
+        keys = []
+    elif type(keys) != list:
         keys = [keys]
     
     AttributeName = "AttributeName"
@@ -70,14 +77,7 @@ def transpose(dataframe,values,keys):
     keys.append(AttributeName)
     keys.append(AttributeValue)
     df_output = df_output[keys]
+    if null_index_name == 1:
+        df_output.index.name = None
+        dataframe.index.name = None
     return df_output
-
-
-def test_function(arg):
-
-    """
-
-    test function - don't use
-
-    """
-    return arg
